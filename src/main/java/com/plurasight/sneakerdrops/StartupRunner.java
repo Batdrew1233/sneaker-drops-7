@@ -36,6 +36,8 @@ public class StartupRunner implements CommandLineRunner {
             System.out.println("4) Search by year");
             System.out.println("5) Advanced Search");
             System.out.println("6) View by id");
+            System.out.println("7) Add new sneaker");
+            System.out.println(("8) Update sneaker"));
             System.out.println("0) Quit");
             System.out.print("Choose: ");
 
@@ -46,6 +48,8 @@ public class StartupRunner implements CommandLineRunner {
                 case 4 -> findByYear(scanner);
                 case 5 -> advancedSearch(scanner);
                 case 6 -> viewById(scanner);
+                case 7 -> addSneaker(scanner);
+                case 8 -> updateSneaker(scanner);
                 case 0 -> running = false;
                 default -> System.out.println("Unknown option.");
             }
@@ -53,6 +57,31 @@ public class StartupRunner implements CommandLineRunner {
 
 
     }
+
+    private void addSneaker(Scanner scanner){
+        scanner.nextLine();
+        System.out.println("Model: ");
+        String model = scanner.nextLine();
+        System.out.println("Price: ");
+        double price = scanner.nextDouble();
+        System.out.println("Year: ");
+        int year = scanner.nextInt();
+
+        sneakerRepository.save(new Sneaker(model, price, year));
+        System.out.println("Added!");
+    }
+
+    private void updateSneaker(Scanner scanner){
+        System.out.println("Sneaker id: ");
+        long id = scanner.nextLong();
+        Sneaker sneaker = sneakerRepository.findById(id).orElseThrow(()-> new RuntimeException("No sneaker with id " + id));
+        System.out.println("New Price: ");
+        sneaker.setPrice(scanner.nextDouble());
+        sneakerRepository.save(sneaker);
+        System.out.println("Updated!");
+    }
+
+
 
     private void advancedSearch(Scanner scanner){
         System.out.print("Maximum Price: ");
