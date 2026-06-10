@@ -37,7 +37,8 @@ public class StartupRunner implements CommandLineRunner {
             System.out.println("5) Advanced Search");
             System.out.println("6) View by id");
             System.out.println("7) Add new sneaker");
-            System.out.println(("8) Update sneaker"));
+            System.out.println("8) Update sneaker");
+            System.out.println("9) Delete sneaker");
             System.out.println("0) Quit");
             System.out.print("Choose: ");
 
@@ -50,6 +51,7 @@ public class StartupRunner implements CommandLineRunner {
                 case 6 -> viewById(scanner);
                 case 7 -> addSneaker(scanner);
                 case 8 -> updateSneaker(scanner);
+                case 9 -> deleteSneaker(scanner);
                 case 0 -> running = false;
                 default -> System.out.println("Unknown option.");
             }
@@ -79,6 +81,17 @@ public class StartupRunner implements CommandLineRunner {
         sneaker.setPrice(scanner.nextDouble());
         sneakerRepository.save(sneaker);
         System.out.println("Updated!");
+    }
+
+    private void deleteSneaker(Scanner scanner){
+        System.out.println("Sneaker id: ");
+        long id = scanner.nextLong();
+        if(sneakerRepository.existsById(id)){
+            sneakerRepository.deleteById(id);
+            System.out.println("Deleted.");
+        }else{
+            System.out.println("No sneaker with that id.");
+        }
     }
 
 
